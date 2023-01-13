@@ -1,6 +1,11 @@
 Camera c = new Camera(1000, 1000, 4);
+HUD hud = new HUD();
 Player p = new Player();
+
+float deltaTime = 0;
+int pTime = 0;
 ArrayList<Gem> gems = new ArrayList();
+ArrayList<Enemy> enemies = new ArrayList();
 void setup()
 {
   size(1800, 900);
@@ -8,6 +13,8 @@ void setup()
   {
     gems.add(new Gem());
   }
+  
+  textAlign(CENTER);
 }
 
 void draw()
@@ -18,11 +25,16 @@ void draw()
   //Shift Camera to location
   UpdateCamera();
 
+
   DrawLevel();
+  RenderHUD();
   UpdateGems();
-
+  UpdateEnemies();
   UpdatePlayer();
-
+  
+  
+  deltaTime = ((float)(millis()-pTime))/1000;
+  pTime = millis();
 }
 
 
@@ -38,6 +50,7 @@ void draw()
 //Level Render
 void DrawLevel()
 {
+  textSize(12);
   for (int i=0; i < 100; i++)
   {
     for (int j=0; j < 100; j++)
@@ -54,7 +67,10 @@ void DrawLevel()
 }
 
 
-
+void RenderHUD()
+{
+  hud.Render();
+}
 
 
 
@@ -66,8 +82,17 @@ void DrawLevel()
 
 void UpdatePlayer()
 {
-    p.update();
-  c.updateCameraPosition(p.position);
+    p.Update();
+  c.UpdateCameraPosition(p.position);
+}
+
+
+void UpdateEnemies()
+{
+  for(Enemy e: enemies)
+  {
+    e.Update();
+  }
 }
 
 //Update Gems
@@ -76,9 +101,9 @@ void UpdateGems()
   for (int i=gems.size()-1; i >=0; i--)
   {
     Gem g = gems.get(i);
-    if (dist(g.position.x, g.position.y, p.position.x, p.position.y) < 900)
+    if (dist(g.position.x, g.position.y, p.position.x, p.position.y) < 2000 || g.inRange)
     {
-      g.update();
+      g.Update();
     }
 
 
@@ -114,6 +139,16 @@ void keyPressed()
     p.down = true;
     c.down = true;
   }
+  
+  
+  
+  
+  //SPACE
+  if(key == ' ')
+  {
+    //spawn enemy
+    enemies.add(new Enemy());
+  }
 }
 
 
@@ -146,6 +181,6 @@ void keyReleased()
 
 void UpdateCamera()
 {
-  c.update();
-  c.apply();
+  c.Update();
+  c.Apply();
 }

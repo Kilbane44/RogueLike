@@ -17,7 +17,7 @@ class Camera {
 
   // This is the update function, which updates the camera's position based
   // on user input
-  void update() {
+  void Update() {
 
     //if (up)
     //{
@@ -38,7 +38,7 @@ class Camera {
   }
   
   
-  void updateCameraPosition(PVector pos)
+  void UpdateCameraPosition(PVector pos)
   {
     x = pos.x-width/2;
     y = pos.y-height/2;
@@ -46,7 +46,7 @@ class Camera {
 
   // This is the apply function, which applies the camera's position to the
   // current drawing context
-  void apply() {
+  void Apply() {
     // Move the origin of the coordinate system to the camera's position
     translate(-x, -y);
   }

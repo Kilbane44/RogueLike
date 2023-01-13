@@ -8,6 +8,8 @@ class Gem
   color col;
   int xpValue;
 
+  float flySpeed = 400;
+  
   Gem()
   {
     position = new PVector(random(10000), random(10000));
@@ -15,15 +17,15 @@ class Gem
     xpValue = 20;
   }
 
-  void render()
+  void Render()
   {
     fill(col);
     ellipse(position.x, position.y, 10, 10);
   }
 
-  void update()
+  void Update()
   {
-    render();
+    Render();
 
     if (dist(position.x, position.y, p.position.x, p.position.y) < p.pickUpRadius)
     {
@@ -35,8 +37,9 @@ class Gem
     {
       dir = p.position.copy().sub(position.copy());
       dir.normalize();
-
-      dir.mult(8);
+  
+      //Fly towards player at this speed /sec
+      dir.mult(flySpeed*deltaTime);
 
       position.add(dir);
 
