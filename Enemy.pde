@@ -61,7 +61,7 @@ class Enemy
   {
     if(random(1)>.5)
     {
-    gems.add(new Gem(position,color(0,0,255),xpValue));
+      gems.add(new Gem(position,color(0,0,255),xpValue));
     }
   }
 

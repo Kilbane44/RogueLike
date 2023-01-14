@@ -1,3 +1,6 @@
+//Other game idea. Whole world is as big as minimap size. 
+//Enormouse size, zoom in and out mean game mechanic
+
 Camera c = new Camera(1000, 1000, 4);
 HUD hud = new HUD();
 Player p = new Player();
@@ -88,42 +91,61 @@ void RenderHUD()
 
 void UpdatePlayer()
 {
+  //Update palyer
   p.Update();
+  //add them to minimap
   hud.renderMinimap(p.position,color(255,0,255),4);
+  
+  //camera follow player
   c.UpdateCameraPosition(p.position);
 }
 
 
 void UpdateProjectiles()
 {
+  //manage all projectiles in the bullets arraylist
   for (int i=bullets.size()-1; i >= 0; i--)
   {
     Projectile b = bullets.get(i);
 
-
+    //update bullet
     b.Update();
+    
+    
+    
+    //if the bullet if flagged to be killed, kill it.
     if (b.kill)
     {
       bullets.remove(i);
       continue;
     }
-
+    
+    //loop through all enemies
     for (int j=enemies.size()-1; j>=0; j--)
     {
       Enemy e = enemies.get(j);
+      //if the bullet is touching the enemy
       if (b.IsTouchingEnemy(e))
       {
+        
+        //if they can still pass thru more enemies
         if (b.passCount < b.passThrough)
         {
+          
+          //if they have never hit this enemy before
           if (!b.hitIndecies.contains(j))
           {
+            //remember this enemies ID,
             b.hitIndecies.add(j);
+            //increase the number passed thru,
             b.passCount++;
+            
+            //deal damage to enemy
             e.health-=b.damage;
           }
         } else
         {
-
+          //else kill it
           bullets.remove(i);
           break;
         }
@@ -134,24 +156,32 @@ void UpdateProjectiles()
 
 void UpdateEnemies()
 {
+  //Update all enemies in the enemies arraylist
   for (int i=enemies.size()-1; i >=0; i--)
   {
     Enemy e = enemies.get(i);
 
+    //if the enemy if flagged to be killed, kill it.
     if (e.kill)
     {
       e.Die();
       enemies.remove(i);
       continue;
     }
+    //update enemy
     e.Update();
+    
+    //add enemy to the minimap
     hud.renderMinimap(e.position,color(255,0,0));
+    
+    //if the enemy touches the player, bounce and do damage
     if (e.touchingPlayer)
     {
       e.touchingPlayer = false;
       p.health -= e.damage;
     }
 
+    //If an enemy touches antoher enemy, bounce a little
     for (int j = enemies.size()-1; j >=0; j--) {
       if (i != j) {
         Enemy e2 = enemies.get(j);
@@ -173,13 +203,14 @@ void UpdateGems()
   for (int i=gems.size()-1; i >=0; i--)
   {
     Gem g = gems.get(i);
+    //if the gems are on screen render them
     if (dist(g.position.x, g.position.y, p.position.x, p.position.y) < 2000 || g.inRange)
     {
       g.Update();
-      hud.renderMinimap(g.position,color(0,0,255),1);
+      //hud.renderMinimap(g.position,color(0,0,255),1);
     }
 
-
+    //if the gems are marked to kill, give xp and remove
     if (g.kill)
     {
       p.xp += g.xpValue;

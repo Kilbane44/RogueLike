@@ -1,7 +1,6 @@
 class Player
 {
   boolean up, down, left, right = false;
-
   PVector position;
   PVector dir;
   PVector velocity;
@@ -22,7 +21,7 @@ class Player
 
   Player()
   {
-    weapons.add(new Weapon());
+    weapons.add(new Wep_Sniper());
     
     position = new PVector(5000, 5000);
     speed = 100;
@@ -84,6 +83,7 @@ class Player
   
   void FireWeapons()
   {
+    //This force fires all weapons (on right click for now)
     for(Weapon w: weapons)
     {
       w.lastTime =0;

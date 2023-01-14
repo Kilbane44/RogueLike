@@ -28,11 +28,65 @@ class Projectile
     
   }
   
+  Projectile(float _damage)
+  {
+    this.damage = _damage;
+    velocity = new PVector(0,0);
+    position = p.position.copy();
+    dir = new PVector(c.x+mouseX, c.y+mouseY).sub(position.copy());
+    dir.normalize();
+    dir.mult(speed*deltaTime);
+    velocity.add(dir);
+    
+  }
+  
+  Projectile(float _damage, int _pen, float _speed)
+  {
+    speed = _speed;
+    passThrough= _pen;
+    this.damage = _damage;
+    velocity = new PVector(0,0);
+    position = p.position.copy();
+    dir = new PVector(c.x+mouseX, c.y+mouseY).sub(position.copy());
+    dir.normalize();
+    dir.mult(speed*deltaTime);
+    velocity.add(dir);
+    
+  }
+  
+  Projectile(PVector _pos, PVector _dir,float _damage, int _pen, float _speed)
+  {
+    speed = _speed;
+    passThrough= _pen;
+    this.damage = _damage;
+    velocity = new PVector(0,0);
+    position = _pos.copy();
+    dir = _dir.copy();
+    dir.normalize();
+    dir.mult(speed*deltaTime);
+    velocity.add(dir);
+    
+  }
+  Projectile(PVector _pos, PVector _dir,float _damage, int _pen, float _speed, float _size)
+  {
+    size = _size;
+    speed = _speed;
+    passThrough= _pen;
+    this.damage = _damage;
+    velocity = new PVector(0,0);
+    position = _pos.copy();
+    dir = _dir.copy();
+    dir.normalize();
+    dir.mult(speed*deltaTime);
+    velocity.add(dir);
+    
+  }
+  
   
   void Render()
   {
     fill(0,255,0);
-    ellipse(position.x, position.y, 10,10);
+    ellipse(position.x, position.y, size,size);
     
   }
   void Move()

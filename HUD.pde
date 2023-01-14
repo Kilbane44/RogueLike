@@ -37,9 +37,8 @@ class HUD
   void DebugHUD()
   {
     //todo:
-    //bullet pass thru
-    //bullet damage
-    //bullet speed
+    //player health
+    //
     
 
 
@@ -83,6 +82,39 @@ class HUD
     textSize(8);
     text(p.weapons.get(0).projectilePerShot, c.x+350, c.y+height-40);
 
+
+
+    //bullet damage
+    fill(0);
+    ellipse(c.x+450, c.y+height-50, 100, 100);
+    textSize(12);
+    fill(255);
+    text("Bullet Damage", c.x+450, c.y+height-60);
+    textSize(8);
+    text(p.weapons.get(0).damage, c.x+450, c.y+height-40);
+
+    
+    
+    //bullet pass thru
+    fill(0);
+    ellipse(c.x+550, c.y+height-50, 100, 100);
+    textSize(12);
+    fill(255);
+    text("bullet pen", c.x+550, c.y+height-60);
+    textSize(8);
+    text(p.weapons.get(0).passThrough, c.x+550, c.y+height-40);
+
+
+    //bullet speed
+    fill(0);
+    ellipse(c.x+650, c.y+height-50, 100, 100);
+    textSize(12);
+    fill(255);
+    text("bullet speed", c.x+650, c.y+height-60);
+    textSize(8);
+    text(p.weapons.get(0).projectileSpeed, c.x+650, c.y+height-40);
+
+
     ButtonClick();
   }
 
@@ -98,9 +130,9 @@ class HUD
     float WepReloadTimeX =250;
     float WepReloadTimeY=height-50;
     PVector BulletPerShot = new PVector(350, height-50);
-    
-    
-    
+    PVector BulletDamage = new PVector(450, height-50);
+    PVector BulletPen = new PVector(550, height-50);
+    PVector BulletSpeed = new PVector(650, height-50);
 
     if (mousePressed && pMouse == false)
     {
@@ -122,6 +154,27 @@ class HUD
       if (dist(mouseX, mouseY, BulletPerShot.x, BulletPerShot.y) < 50)
       {
         p.weapons.get(0).projectilePerShot+=1;
+      }
+      
+      
+      //bullet damage
+      if (dist(mouseX, mouseY, BulletDamage.x, BulletDamage.y) < 50)
+      {
+        p.weapons.get(0).damage+=50;
+      }
+      
+      
+      //bullet pen
+      if (dist(mouseX, mouseY, BulletPen.x, BulletPen.y) < 50)
+      {
+        p.weapons.get(0).passThrough+=1;
+      }
+      
+      //bullet speed
+      
+      if (dist(mouseX, mouseY, BulletSpeed.x, BulletSpeed.y) < 50)
+      {
+        p.weapons.get(0).projectileSpeed+=100;
       }
     }
 
